@@ -1,0 +1,17 @@
+builds:
+  - main: ./cmd/main.go
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - 386
+
+
+archive:
+  replacements:
+    amd64: 64-bit
+    386: 32-bit
+    darwin: macOS
+  format: zip
