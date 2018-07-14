@@ -1,5 +1,5 @@
 builds:
-  - main: ./cmd/main.go
+  - main: ./cmd/radium/main.go
     goos:
       - linux
       - darwin
@@ -7,7 +7,6 @@ builds:
     goarch:
       - amd64
       - 386
-
 
 archive:
   replacements:
