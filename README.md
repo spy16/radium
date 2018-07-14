@@ -47,6 +47,14 @@ curl "localhost:8080/search?q=go"
 > assumed to be tags
 
 
+### Running as Clipboard Monitor
+
+Run `radium serve --clipboard` to start radium in server+clipboard
+mode (pass `--addr=""` to run in clipboard-only mode).
+
+Now, everytime you copy some text into clipboard (which is less than
+5 words), `radium` is going to run a query and try to find some results.
+If a result is found, it will be pasted back into the clipboard
 
 ## How it works?
 
@@ -76,7 +84,8 @@ Currently following implementations are available:
 - [ ] a configurable caching mechanism to enable offline usage
 - [ ] Add more sources (hackernews?, wikipedia?)
 - [ ] Enable markdown to console colored output ?
-- [x] Enable clipboard monitoring
-  - everytime user copies a string in special format, run radium query
-  - if a result is available within certain time window, replace the clipboard
+- [ ] Enable clipboard monitoring
+  - [x] everytime user copies a string, run radium query
+  - [x] if a result is available within certain time window, replace the clipboard
     content with the solution
+  - [ ] enable query only if clipboard text is in special format to reduce unwanted paste-backs
