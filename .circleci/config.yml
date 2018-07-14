@@ -1,25 +1,24 @@
 version: 2
 jobs:
-	build:
-		docker:
-			- image: circleci/golang:1.8
-		working_directory: /go/src/github.com/shivylp/radium
-		steps:
-			- checkout
-			- run: go get -v -t -d ./...
-			- run: go test -v ./...
-			- run: make build
-	deploy:
-		docker:
-			- image: circleci/golang:1.8
-		working_directory: /go/src/github.com/shivylp/radium
-		steps:
-			- checkout
-			- run: go get -u github.com/mitchellh/gox
-			- run: go get -u github.com/tcnksm/ghr
-			- run: go get -u github.com/stevenmatthewt/semantics
+  build:
+    docker:
+      - image: circleci/golang:1.9
+    working_directory: /go/src/github.com/shivylp/radium
+    steps:
+      - checkout
+      - run: go get -v -t -d ./...
+      - run: make build
+  deploy:
+    docker:
+      - image: circleci/golang:1.9
+    working_directory: /go/src/github.com/shivylp/radium
+    steps:
+      - checkout
+      - run: go get -u github.com/mitchellh/gox
+      - run: go get -u github.com/tcnksm/ghr
+      - run: go get -u github.com/stevenmatthewt/semantics
       - run:
-					name: cross compile
-					command: |
-						gox -os="linux darwin windows" -arch="amd64" -output="bin/radium_{{.OS}}_{{.Arch}}"
-						cd bin/ && gzip *
+          name: cross-compile
+          command: |
+            gox -os="linux darwin windows" -arch="amd64" -output="bin/radium_{{.OS}}_{{.Arch}}"
+            cd bin/ && gzip *
