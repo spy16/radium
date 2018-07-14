@@ -6,7 +6,7 @@ script: make build
 deploy:
   - provider: script
     skip_cleanup: true
-    script: curl -sL https://git.io/goreleaser | bash -s -- --rm-dist
+    script: curl -sL https://git.io/goreleaser | bash -s -- --rm-dist --skip-validation
     on:
       tags: true
 notifications:
