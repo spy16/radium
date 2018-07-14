@@ -76,7 +76,7 @@ Currently following implementations are available:
 - [ ] a configurable caching mechanism to enable offline usage
 - [ ] Add more sources (hackernews?, wikipedia?)
 - [ ] Enable markdown to console colored output ?
-- [ ] Enable clipboard monitoring
+- [x] Enable clipboard monitoring
   - everytime user copies a string in special format, run radium query
   - if a result is available within certain time window, replace the clipboard
     content with the solution

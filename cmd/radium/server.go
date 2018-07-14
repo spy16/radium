@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -43,8 +44,9 @@ by passing '--clipboard' or '-C' option and setting '--addr' blank.
 
 		var wg sync.WaitGroup
 
+		ins := getNewRadiumInstance()
+
 		if addr != "" {
-			ins := getNewRadiumInstance()
 			srv := radium.NewServer(ins)
 			wg.Add(1)
 			go func(wg *sync.WaitGroup) {
@@ -57,7 +59,12 @@ by passing '--clipboard' or '-C' option and setting '--addr' blank.
 		if clipboard {
 			wg.Add(1)
 			go func(wg *sync.WaitGroup) {
-				// TODO: run clipboard monitor here
+				clipmon := radium.ClipboardMonitor{}
+				clipmon.Instance = ins
+				ctx := context.Background()
+				if err := clipmon.Run(ctx); err != nil {
+					ins.Errorf("clipboard monitor failed: %s", err)
+				}
 				wg.Done()
 			}(&wg)
 		}
