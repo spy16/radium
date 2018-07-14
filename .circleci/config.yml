@@ -20,8 +20,8 @@ jobs:
       - run:
           name: cross-compile
           command: |
-            gox -os="linux darwin windows" -arch="amd64" -output="bin/radium_{{.OS}}_{{.Arch}}"
-            cd bin/ && gzip *
+            gox -os="linux darwin windows" -arch="amd64" -output="dist/radium_{{.OS}}_{{.Arch}}"
+            cd dist/ && gzip *
 workflows:
   version: 2
   build-deploy:
