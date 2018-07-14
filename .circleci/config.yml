@@ -22,6 +22,17 @@ jobs:
           command: |
             gox -os="linux darwin windows" -arch="amd64" -output="dist/radium_{{.OS}}_{{.Arch}}"
             cd dist/ && gzip *
+      - add_ssh_keys
+      - run:
+          name: create-release
+          command: |
+            tag=$(semantics --output-tag)
+            if [ "$tag" ]; then
+              ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace $tag dist/
+            else
+              echo "The commit message(s) did not indicate a major/minor/patch version."
+            fi
+
 workflows:
   version: 2
   build-deploy:
