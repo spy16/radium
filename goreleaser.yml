@@ -1,5 +1,5 @@
 builds:
-  - main: "./cmd/radium/*.go"
+  - main: ./cmd/radium/
     goos:
       - linux
       - darwin
