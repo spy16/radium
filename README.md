@@ -6,6 +6,8 @@ in `Go` (`Golang`)
 
 
 ## Install/Build
+You can simply download the latest version from [releases](https://github.com/shivylp/radium/releases) page.
+
 `radium` requires Go 1.8+ to build. Simply run `make` command in
 the source directory to build and install the binary into your `$GOPATH/bin`
 directory. If you just want to build the binary, run `make build`
