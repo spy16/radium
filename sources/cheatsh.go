@@ -28,9 +28,9 @@ type CheatSh struct {
 func (csh CheatSh) Search(query radium.Query) ([]radium.Article, error) {
 	var results []radium.Article
 
-	if lang, found := query.Tags["language"]; found {
+	if lang, found := query.Attribs["language"]; found {
 		color := false
-		if val, found := query.Tags["color"]; found {
+		if val, found := query.Attribs["color"]; found {
 			if val == "yes" || val == "true" {
 				color = true
 			}
@@ -78,7 +78,7 @@ func (csh CheatSh) makeLangRequest(q string, lang string, color bool) (*radium.A
 	result.Content = string(data)
 	result.ContentType = "plaintext"
 	result.Title = q
-	result.Tags = map[string]string{
+	result.Attribs = map[string]string{
 		"language": lang,
 	}
 	return result, nil

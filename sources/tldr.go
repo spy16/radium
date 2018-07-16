@@ -30,7 +30,7 @@ func (tldr TLDR) Search(query radium.Query) ([]radium.Article, error) {
 	tool := strings.Replace(query.Text, " ", "-", -1)
 	platform := "common"
 
-	if val, found := query.Tags["platform"]; found {
+	if val, found := query.Attribs["platform"]; found {
 		platform = val
 	}
 
@@ -72,7 +72,7 @@ func (tldr TLDR) getPlatformToolInfo(tool, platform string) (*radium.Article, er
 	result.Content = string(data)
 	result.ContentType = "markdown"
 	result.Title = tool
-	result.Tags = map[string]string{
+	result.Attribs = map[string]string{
 		"platform": platform,
 	}
 	result.License = "The MIT License (MIT)"

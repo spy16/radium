@@ -18,20 +18,20 @@ func newQueryCmd(cfg *config) *cobra.Command {
 		Args:    cobra.ExactArgs(1),
 	}
 
-	var tags []string
-	cmd.Flags().StringSliceVarP(&tags, "tag", "t", []string{}, "Tags to narrow the search scope")
+	var attribs []string
+	cmd.Flags().StringSliceVarP(&attribs, "attr", "a", []string{}, "Attributes to narrow the search scope")
 
 	cmd.Run = func(_ *cobra.Command, args []string) {
 		query := radium.Query{}
 		query.Text = args[0]
-		query.Tags = map[string]string{}
+		query.Attribs = map[string]string{}
 
-		for _, tag := range tags {
-			parts := strings.Split(tag, ":")
+		for _, attrib := range attribs {
+			parts := strings.Split(attrib, ":")
 			if len(parts) == 2 {
-				query.Tags[parts[0]] = parts[1]
+				query.Attribs[parts[0]] = parts[1]
 			} else {
-				fmt.Println("Err: invalid tag format. must be <name>:<value>")
+				fmt.Println("Err: invalid attrib format. must be <name>:<value>")
 				os.Exit(1)
 			}
 		}

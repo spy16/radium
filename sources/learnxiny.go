@@ -66,7 +66,7 @@ func (lxy LearnXInY) getLanguageMarkdown(language string) (*radium.Article, erro
 	result.Content = string(data)
 	result.ContentType = "markdown"
 	result.Title = language
-	result.Tags = map[string]string{}
+	result.Attribs = map[string]string{}
 	result.License = "CC BY-SA 3.0"
 	return result, nil
 }

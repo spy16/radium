@@ -42,7 +42,7 @@ func (rad Radium) Search(query radium.Query) ([]radium.Article, error) {
 
 	urlQuery.Set("q", query.Text)
 
-	for name, val := range query.Tags {
+	for name, val := range query.Attribs {
 		urlQuery.Set(name, val)
 	}
 

@@ -18,15 +18,15 @@ You can run `radium --help` to see the list of available commands.
 ### Querying from command-line
 
 ```bash
-radium query "append file" --tag language:go --tag color:yes
+radium query "append file" --attr language:go --attr color:yes
 
-radium query dir --tag platform:windows
+radium query dir --attr platform:windows
 
 radium query go
 ```
 
-> `--tag` is not part of radium framework but part of the source
-> implementation itself. For example `--tag color:yes` does not
+> `--attr` is not part of radium framework but part of the source
+> implementation itself. For example `--attr color:yes` does not
 > work always and works with only results returned by `CheatSh`
 > source.
 
@@ -46,7 +46,7 @@ curl "localhost:8080/search?q=go"
 ```
 
 > When using http api, all query parameters except `q` will be
-> assumed to be tags
+> assumed to be attributes
 
 
 ### Running as Clipboard Monitor

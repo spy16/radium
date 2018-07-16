@@ -36,11 +36,11 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 
 	query := Query{}
 	query.Text = req.FormValue("q")
-	query.Tags = map[string]string{}
+	query.Attribs = map[string]string{}
 
 	for key, val := range req.URL.Query() {
 		if key != "q" && len(val) > 0 {
-			query.Tags[key] = val[0]
+			query.Attribs[key] = val[0]
 		}
 	}
 

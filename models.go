@@ -21,8 +21,8 @@ type Article struct {
 	// should be one of markdown, json, yaml, html
 	ContentType string `json:"content_type"`
 
-	// Tags can contain type of the article, keywords etc.
-	Tags map[string]string `json:"tags"`
+	// Attribs can contain type of the article, keywords etc.
+	Attribs map[string]string `json:"attribs"`
 
 	// License can contain name of the license if applicable
 	License string `json:"license"`
@@ -50,9 +50,9 @@ type Query struct {
 	// use this to find relevant results
 	Text string `json:"text"`
 
-	// Tags can be used by sources to further filter down
+	// Attribs can be used by sources to further filter down
 	// the results
-	Tags map[string]string `json:"tags"`
+	Attribs map[string]string `json:"attribs"`
 }
 
 // Validate for empty or invalid queries
