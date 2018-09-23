@@ -36,10 +36,8 @@ radium query "dir" --sources "tldr" -a platform:windows
 
 * `platform` - Specifying this will limit the lookup scope to platform specific directories in `tldr`
 
-`sources.LearnXInY` implements `radium.Source` using [learnxinyminutes](http://github.com/adambard/learnxinyminutes-docs).
 
-
-## 5. Wikipedia
+## 3. Wikipedia
 
 `wikipedia.Wikipedia` implements `radium.Source` using [Wikipedia](https://wikipedia.org).
 
@@ -55,8 +53,19 @@ radium query "hindi" --sources "wikipedia" -a language:hi
 
 * `language` - Return results in specified language. (e.g., `-a language:hi` will look up in `https://hi.wikipedia.org/wiki`) 
 
+## 4. DuckDuckGo
 
-## 4. LearnXInYMinutes
+`duckduckgo.DuckDuckGo` implements `radium.Source` using [DuckDuckGo Instant Answers API](https://api.duckduckgo.com).
+
+### Examples:
+
+```bash
+radium query "apple" --sources "ddg"
+
+radium query "hindi" --sources "duckduckdgo" 
+```
+
+## 5. LearnXInYMinutes
 
 `sources.LearnXInY` implements `radium.Source` using [learnxinyminutes](http://github.com/adambard/learnxinyminutes-docs).
 
