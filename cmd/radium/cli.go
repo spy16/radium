@@ -34,7 +34,8 @@ and replace queries with solutions as they come in!
 
 	rootCmd.PersistentFlags().BoolP("ugly", "u", false, "Print raw output as yaml or json")
 	rootCmd.PersistentFlags().Bool("json", false, "Print output as JSON")
-	rootCmd.PersistentFlags().StringSlice("sources", nil, "Enable sources")
+	rootCmd.PersistentFlags().StringSliceP("sources", "s", nil, "Enable sources")
+	rootCmd.PersistentFlags().String("strategy", "1st", "Default strategy to use")
 
 	rootCmd.AddCommand(newServeCmd(cfg))
 	rootCmd.AddCommand(newQueryCmd(cfg))

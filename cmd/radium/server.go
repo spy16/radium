@@ -47,7 +47,11 @@ by passing '--clipboard' or '-C' option and setting '--addr' blank.
 		ins := getNewRadiumInstance(*cfg)
 
 		if addr != "" {
-			srv := radium.NewServer(ins)
+			ds, err := cmd.Flags().GetString("strategy")
+			if err != nil {
+				ds = "1st"
+			}
+			srv := radium.NewServer(ins, ds)
 			wg.Add(1)
 			go func(wg *sync.WaitGroup) {
 				ins.Infof("starting server on '%s'...", addr)

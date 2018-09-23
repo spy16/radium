@@ -20,9 +20,7 @@ func newQueryCmd(cfg *config) *cobra.Command {
 	}
 
 	var attribs []string
-	var strategy string
 	cmd.Flags().StringSliceVarP(&attribs, "attr", "a", []string{}, "Attributes to narrow the search scope")
-	cmd.Flags().StringVarP(&strategy, "strategy", "s", "1st", "Strategy to use for executing sources")
 
 	cmd.Run = func(_ *cobra.Command, args []string) {
 		query := radium.Query{}
@@ -39,6 +37,11 @@ func newQueryCmd(cfg *config) *cobra.Command {
 				writeOut(cmd, errors.New("invalid attrib format. must be <name>[:<value>]"))
 				os.Exit(1)
 			}
+		}
+
+		strategy, err := cmd.Flags().GetString("strategy")
+		if err != nil {
+			strategy = "1st"
 		}
 
 		ctx := context.Background()

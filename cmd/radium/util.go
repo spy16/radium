@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/shivylp/radium"
 	"github.com/spf13/cobra"
@@ -29,7 +30,12 @@ func tryPrettyPrint(v interface{}) {
 		if len(results) == 1 {
 			tryPrettyPrint(results[0])
 		} else {
-			rawDump(results, false)
+			for num, res := range results {
+				fmt.Printf("%d. %s [source=%s]\n", num+1, strings.TrimSpace(res.Title), res.Source)
+				fmt.Println(strings.Repeat("-", 20))
+				fmt.Println(res.Content)
+				fmt.Println(strings.Repeat("=", 20))
+			}
 		}
 	case error:
 		fmt.Printf("error: %s\n", v)

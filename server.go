@@ -10,10 +10,11 @@ import (
 
 // NewServer initializes the http API server with given
 // instance of Radium
-func NewServer(ins *Instance) *Server {
+func NewServer(ins *Instance, defaultStrategy string) *Server {
 	srv := &Server{}
 
 	srv.ins = ins
+	srv.defStrategy = defaultStrategy
 	srv.router = mux.NewRouter()
 	srv.router.HandleFunc("/search", srv.handleSearch)
 	srv.router.HandleFunc("/sources", srv.handleSources)
@@ -23,8 +24,9 @@ func NewServer(ins *Instance) *Server {
 
 // Server represents an instance of HTTP API server
 type Server struct {
-	ins    *Instance
-	router *mux.Router
+	ins         *Instance
+	router      *mux.Router
+	defStrategy string
 }
 
 func (srv Server) ServeHTTP(wr http.ResponseWriter, req *http.Request) {
@@ -37,7 +39,7 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 	query := Query{}
 	strategy := req.FormValue("strategy")
 	if strategy == "" {
-		strategy = "1st"
+		strategy = srv.defStrategy
 	}
 
 	query.Text = req.FormValue("q")
