@@ -60,9 +60,9 @@ radium query "hindi" --sources "wikipedia" -a language:hi
 ### Examples:
 
 ```bash
-radium query "apple" --sources "ddg"
+radium query "apple inc" --sources "ddg"
 
-radium query "hindi" --sources "duckduckdgo" 
+radium query "spacex" --sources "duckduckdgo" 
 ```
 
 ## 5. LearnXInYMinutes
