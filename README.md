@@ -4,9 +4,12 @@ reference articles, cheat sheets etc. right from a shell similar
 to the awesome [cheat.sh](http://cheat.sh). `radium` is written
 in `Go` (`Golang`)
 
+## Install
 
-## Install/Build
-You can simply download the latest version from [releases](https://github.com/shivylp/radium/releases) page.
+1. Download the latest pre-built binary for your platform from [releases](https://github.com/shivylp/radium/releases) page.
+2. Run the binary! (Optionally, create a `radium.yaml` file in `~` to customize)
+
+## Build
 
 `radium` requires Go 1.8+ to build. Simply run `make` command in
 the source directory to build and install the binary into your `$GOPATH/bin`
@@ -18,7 +21,7 @@ You can run `radium --help` to see the list of available commands.
 ### Querying from command-line
 
 ```bash
-radium query "append file" --attr language:go --attr color:yes
+radium query "append file in go" 
 
 radium query dir --attr platform:windows
 
@@ -26,9 +29,8 @@ radium query go
 ```
 
 > `--attr` is not part of radium framework but part of the source
-> implementation itself. For example `--attr color:yes` does not
-> work always and works with only results returned by `CheatSh`
-> source.
+> implementation itself. Weather to consume the attributes or not
+> is decided by the source implementation.
 
 ### Querying from curl
 
@@ -38,16 +40,15 @@ command: `radium serve --addr=localhost:8080`
 Then
 
 ```bash
-curl "localhost:8080/search?q=append+file&language=go&color=yes"
+curl "localhost:8080/search?q=append+file+in+go"
 
 curl "localhost:8080/search?q=dir&platform=windows"
 
 curl "localhost:8080/search?q=go"
 ```
 
-> When using http api, all query parameters except `q` will be
+> When using http api, all query parameters except `q` and `strategy` will be
 > assumed to be attributes
-
 
 ### Running as Clipboard Monitor
 
@@ -75,8 +76,9 @@ Currently following implementations are available:
 
 1. `sources.TLDR` using the awesome [tldr-pages](https://github.com/tldr-pages/tldr) project
 2. `sources.LearnXInY` using the awesome [Learn X In Y Minutes](https://github.com/adambard/learnxinyminutes-docs) project
-3. `sources.CheatSh` using the awesome [cheat.sh](https://github.com/chubin/cheat.sh) project
+3. `cheatsh.CheatSh` using the awesome [cheat.sh](https://github.com/chubin/cheat.sh) project
 4. `sources.Radium` which can be used to query other `radium` servers to enable distributed setup
+5. `sources.Wikipedia` which queries and extracts first paragraph from [Wikipedia](https://en.wikipedia.org)
 
 
 ## TODO:
@@ -84,7 +86,7 @@ Currently following implementations are available:
 - [x] Make sources configurable
   - [x] sources to be used should be configurable per instance
 - [ ] a configurable caching mechanism to enable offline usage
-- [ ] Add more sources (hackernews?, wikipedia?)
+- [ ] Add more sources (hackernews?)
 - [ ] Enable markdown to console colored output ?
 - [ ] Enable clipboard monitoring
   - [x] everytime user copies a string, run radium query
