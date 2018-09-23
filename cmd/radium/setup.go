@@ -5,6 +5,7 @@ import (
 
 	"github.com/shivylp/radium"
 	"github.com/shivylp/radium/sources"
+	"github.com/shivylp/radium/sources/cheatsh"
 )
 
 func getNewRadiumInstance(cfg config) *radium.Instance {
@@ -13,7 +14,7 @@ func getNewRadiumInstance(cfg config) *radium.Instance {
 	for _, src := range cfg.Sources {
 		switch strings.ToLower(strings.TrimSpace(src)) {
 		case "cheatsh", "cheat.sh":
-			ins.RegisterSource("cheat.sh", sources.NewCheatSh())
+			ins.RegisterSource("cheat.sh", cheatsh.New())
 		case "learnxiny", "lxy", "learnxinyminutes":
 			ins.RegisterSource("learnxinyminutes", sources.NewLearnXInYMins())
 		case "tldr":
