@@ -2,6 +2,7 @@ package cheatsh
 
 import (
 	"context"
+	"strings"
 
 	"github.com/shivylp/radium"
 )
@@ -22,5 +23,17 @@ type CheatSh struct {
 func (csh CheatSh) Search(ctx context.Context, query radium.Query) ([]radium.Article, error) {
 	transformLanguageQuery(&query)
 
-	return executeRequest(ctx, query)
+	raw, err := executeRequest(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+
+	results := []radium.Article{}
+	for _, res := range raw {
+		if !strings.HasPrefix(res.Content, "Unknown topic") {
+			results = append(results, res)
+		}
+	}
+
+	return results, nil
 }

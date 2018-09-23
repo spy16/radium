@@ -68,6 +68,7 @@ func (sr *safeResults) extend(results []Article, srcName string, logger Logger) 
 			logger.Warnf("ignoring invalid result from source '%s': %s", srcName, err)
 			continue
 		}
+		res.Source = srcName
 
 		sr.results = append(sr.results, res)
 	}
@@ -104,7 +105,16 @@ func (nth *NthResult) Execute(ctx context.Context, query Query, srcs []Registere
 			return nil, err
 		}
 
-		results = append(results, srcResults...)
+		for _, res := range srcResults {
+			if err := res.Validate(); err != nil {
+				nth.Warnf("ignoring invalid result  from '%s': %s", src.Name, err)
+				continue
+			}
+
+			res.Source = src.Name
+			results = append(results, res)
+		}
+
 		if len(results) >= nth.stopAt {
 			break
 		}
