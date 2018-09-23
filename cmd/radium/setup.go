@@ -6,6 +6,7 @@ import (
 	"github.com/shivylp/radium"
 	"github.com/shivylp/radium/sources"
 	"github.com/shivylp/radium/sources/cheatsh"
+	"github.com/shivylp/radium/sources/wikipedia"
 )
 
 func getNewRadiumInstance(cfg config) *radium.Instance {
@@ -20,7 +21,7 @@ func getNewRadiumInstance(cfg config) *radium.Instance {
 		case "tldr":
 			ins.RegisterSource("tldr", sources.NewTLDR())
 		case "wiki", "wikipedia":
-			ins.RegisterSource("wikipedia", sources.NewWikipedia())
+			ins.RegisterSource("wikipedia", wikipedia.New("https://%s.wikipedia.org/w/api.php"))
 		default:
 			ins.Fatalf("unknown source type: %s", src)
 		}

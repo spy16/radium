@@ -86,7 +86,8 @@ Currently following implementations are available:
 - [x] Make sources configurable
   - [x] sources to be used should be configurable per instance
 - [ ] a configurable caching mechanism to enable offline usage
-- [ ] Add more sources (hackernews?)
+- [ ] Add more sources
+  - [x] Wikipedia
 - [ ] Enable markdown to console colored output ?
 - [ ] Enable clipboard monitoring
   - [x] everytime user copies a string, run radium query
