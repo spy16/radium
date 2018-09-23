@@ -74,12 +74,15 @@ type Source interface {
 
 Currently following implementations are available:
 
+
 1. `sources.TLDR` using the awesome [tldr-pages](https://github.com/tldr-pages/tldr) project
 2. `sources.LearnXInY` using the awesome [Learn X In Y Minutes](https://github.com/adambard/learnxinyminutes-docs) project
 3. `cheatsh.CheatSh` using the awesome [cheat.sh](https://github.com/chubin/cheat.sh) project
 4. `sources.Radium` which can be used to query other `radium` servers to enable distributed setup
-5. `sources.Wikipedia` which queries and extracts first paragraph from [Wikipedia](https://en.wikipedia.org)
+5. `wikipedia.Wikipedia` which queries and extracts first paragraph from [Wikipedia](https://en.wikipedia.org)
+6. `duckduckgo.DuckDuckGo` which uses [DuckDuckGo Instant Answer API](https://api.duckduckgo.com/)
 
+See [sources/README.md](./sources/README.md) for more information
 
 ## TODO:
 
@@ -88,6 +91,7 @@ Currently following implementations are available:
 - [ ] a configurable caching mechanism to enable offline usage
 - [ ] Add more sources
   - [x] Wikipedia
+  - [x] DuckDuckGo
 - [ ] Enable markdown to console colored output ?
 - [ ] Enable clipboard monitoring
   - [x] everytime user copies a string, run radium query

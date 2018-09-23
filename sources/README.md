@@ -2,11 +2,11 @@
 
 ## 1. CheatSh
 
-CheatSh implements `radium.Source` using [cheat.sh](https://cheat.sh) as the source of information.
+`cheatsh.CheatSh` implements `radium.Source` using [cheat.sh](https://cheat.sh) as the source of information.
 
 ### Examples:
 
-```
+```bash
 radium query "append file in go"
 
 radium query "append file" -a language:go
@@ -20,3 +20,48 @@ radium query "open socket in java" -a nocolor
 * `language` - Programming language (recommended to use `append file in go` format instead of this tag)
 
 
+## 2. Tldr
+
+`sources.TLDR` implements `radium.Source` using [tldr](https://github.com/tldr-pages/tldr).
+
+### Examples:
+
+```bash
+radium query "ls" --sources "tldr"
+
+radium query "dir" --sources "tldr" -a platform:windows
+```
+
+### Attributes:
+
+* `platform` - Specifying this will limit the lookup scope to platform specific directories in `tldr`
+
+`sources.LearnXInY` implements `radium.Source` using [learnxinyminutes](http://github.com/adambard/learnxinyminutes-docs).
+
+
+## 5. Wikipedia
+
+`wikipedia.Wikipedia` implements `radium.Source` using [Wikipedia](https://wikipedia.org).
+
+### Examples:
+
+```bash
+radium query "ls" --sources "wiki"
+
+radium query "hindi" --sources "wikipedia" -a language:hi
+```
+
+### Attributes:
+
+* `language` - Return results in specified language. (e.g., `-a language:hi` will look up in `https://hi.wikipedia.org/wiki`) 
+
+
+## 4. LearnXInYMinutes
+
+`sources.LearnXInY` implements `radium.Source` using [learnxinyminutes](http://github.com/adambard/learnxinyminutes-docs).
+
+### Examples:
+
+```bash
+radium query "dart" --sources "lxy"
+```
