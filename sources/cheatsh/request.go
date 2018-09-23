@@ -63,7 +63,7 @@ func makeRequest(ctx context.Context, query radium.Query) (*http.Request, error)
 		appendPath(pu, queryStr)
 	}
 
-	if _, found := query.Attribs["color"]; !found {
+	if _, found := query.Attribs["nocolor"]; found {
 		queryParams.Set("T", "")
 	}
 
