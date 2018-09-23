@@ -1,3 +1,6 @@
+VERSION:=$(shell git describe --abbrev=0 --tags)
+COMMIT:=$(shell git rev-parse HEAD)
+
 all: clean setup install
 
 setup-deps:
@@ -5,10 +8,10 @@ setup-deps:
 	dep ensure -v
 
 build:
-	go build -o ./bin/radium ./cmd/radium/*.go
+	go build -ldflags "-X main.version=$(VERSION) -X main.commit=$(COMMIT)" -o ./bin/radium ./cmd/radium/*.go
 
 install:
-	go install ./cmd/radium/
+	go install -ldflags "-X main.version=$(VERSION) -X main.commit=$(COMMIT)"  ./cmd/radium/
 
 setup:
 	mkdir -p ./bin
