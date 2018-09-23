@@ -58,7 +58,7 @@ func newListSources(cfg *config) *cobra.Command {
 			fmt.Printf("%d source(s) available:\n", L)
 			fmt.Printf("%s\n", strings.Repeat("-", 20))
 			for order, src := range srcs {
-				ty := reflect.TypeOf(src)
+				ty := reflect.TypeOf(src.Source)
 				fmt.Printf("%d. %s (Type: %s)\n", order+1, src.Name, ty.String())
 			}
 		} else {
