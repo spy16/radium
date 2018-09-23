@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/shivylp/radium"
@@ -26,7 +27,14 @@ func getNewRadiumInstance(cfg config) *radium.Instance {
 		case "duckduckgo", "ddg":
 			ins.RegisterSource("duckduckgo", duckduckgo.New())
 		case "radium", "rad":
-			ins.RegisterSource("radium", sources.NewRadium(cfg.RadiumURL))
+			if len(cfg.RadiumServers) == 0 {
+				ins.Logger.Warnf("radium source is enabled, but no radium_server specified")
+			} else {
+				for id, url := range cfg.RadiumServers {
+					name := fmt.Sprintf("radium-%d", id)
+					ins.RegisterSource(name, sources.NewRadium(url))
+				}
+			}
 		default:
 			ins.Fatalf("unknown source type: %s", src)
 		}

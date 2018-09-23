@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/shivylp/radium"
 	"github.com/spf13/cobra"
@@ -20,7 +21,9 @@ func newQueryCmd(cfg *config) *cobra.Command {
 	}
 
 	var attribs []string
+	var deadline time.Duration
 	cmd.Flags().StringSliceVarP(&attribs, "attr", "a", []string{}, "Attributes to narrow the search scope")
+	cmd.Flags().DurationVarP(&deadline, "timeout", "t", 10*time.Second, "Timeout to use across all sources")
 
 	cmd.Run = func(_ *cobra.Command, args []string) {
 		query := radium.Query{}
@@ -45,6 +48,12 @@ func newQueryCmd(cfg *config) *cobra.Command {
 		}
 
 		ctx := context.Background()
+		var cancel func()
+		if deadline.Seconds() > 0 {
+			ctx, cancel = context.WithTimeout(ctx, deadline)
+			defer cancel()
+		}
+
 		ins := getNewRadiumInstance(*cfg)
 		rs, err := ins.Search(ctx, query, strategy)
 		if err != nil {

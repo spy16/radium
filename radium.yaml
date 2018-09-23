@@ -1,3 +1,6 @@
+# enabled list of sources. Sources will be executed one by one
+# in the order they are specified when using '1st' strategy.
+# Order is ignored when using 'concurrent' strategy.
 sources:
   - cheat.sh
   - tldr
@@ -6,4 +9,7 @@ sources:
   - duckduckgo
   - radium
 
-radium_url: http://localhost:8080
+# list of radium servers to be configured. used only when
+# the 'sources' configuration contains 'radium'
+radium_servers:
+  - http://localhost:8080

@@ -30,9 +30,17 @@ func (con Concurrent) Execute(ctx context.Context, query Query, sources []Regist
 	wg := &sync.WaitGroup{}
 
 	for _, source := range sources {
-		wg.Add(1)
+		select {
+		case <-ctx.Done():
+			con.Infof("received cancel signal. stopping")
+			break
+		default:
+		}
 
+		wg.Add(1)
 		go func(wg *sync.WaitGroup, src RegisteredSource, rs *safeResults) {
+			defer wg.Done()
+
 			srcResults, err := src.Search(ctx, query)
 			if err != nil {
 				con.Warnf("source '%s' failed: %s", src.Name, err)
@@ -40,7 +48,6 @@ func (con Concurrent) Execute(ctx context.Context, query Query, sources []Regist
 			}
 
 			rs.extend(srcResults, src.Name, con.Logger)
-			wg.Done()
 		}(wg, source, results)
 	}
 
