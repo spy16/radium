@@ -2,36 +2,19 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"reflect"
+	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 func newCLI() *cobra.Command {
 	cfg := &config{}
 	rootCmd := newRootCmd(cfg)
 
-	initConfig := func() {
-		viper.SetConfigName("radium")
-		viper.SetConfigType("yaml")
-
-		viper.AddConfigPath("./")
-		if hd, err := homedir.Dir(); err == nil {
-			viper.AddConfigPath(hd)
-		}
-		viper.AutomaticEnv()
-		viper.BindPFlags(rootCmd.PersistentFlags())
-
-		viper.ReadInConfig()
-		if err := viper.Unmarshal(cfg); err != nil {
-			log.Fatalf("config err: %s\n", err)
-		}
-	}
-
-	cobra.OnInitialize(initConfig)
+	cobra.OnInitialize(func() {
+		initConfig(cfg, rootCmd)
+	})
 	return rootCmd
 }
 
@@ -51,6 +34,7 @@ and replace queries with solutions as they come in!
 
 	rootCmd.PersistentFlags().BoolP("ugly", "u", false, "Print raw output as yaml or json")
 	rootCmd.PersistentFlags().Bool("json", false, "Print output as JSON")
+	rootCmd.PersistentFlags().StringSlice("sources", nil, "Enable sources")
 
 	rootCmd.AddCommand(newServeCmd(cfg))
 	rootCmd.AddCommand(newQueryCmd(cfg))
@@ -67,14 +51,15 @@ func newListSources(cfg *config) *cobra.Command {
 	}
 
 	cmd.Run = func(_ *cobra.Command, args []string) {
-		ins := getNewRadiumInstance()
+		ins := getNewRadiumInstance(*cfg)
 		srcs := ins.GetSources()
 
 		if L := len(srcs); L > 0 {
 			fmt.Printf("%d source(s) available:\n", L)
-			for name, src := range srcs {
+			fmt.Printf("%s\n", strings.Repeat("-", 20))
+			for order, src := range srcs {
 				ty := reflect.TypeOf(src)
-				fmt.Printf("* %s (Type: %s)\n", name, ty.String())
+				fmt.Printf("%d. %s (Type: %s)\n", order+1, src.Name, ty.String())
 			}
 		} else {
 			fmt.Println("No sources configured")

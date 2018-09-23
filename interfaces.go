@@ -1,14 +1,22 @@
 package radium
 
 import (
+	"context"
 	"fmt"
 	"log"
+	"os"
 )
 
 // Source implementation is responsible for providing
 // external data source to query for results.
 type Source interface {
-	Search(q Query) ([]Article, error)
+	Search(ctx context.Context, q Query) ([]Article, error)
+}
+
+// RegisteredSource embeds given Source along with the registered name.
+type RegisteredSource struct {
+	Name string
+	Source
 }
 
 // Logger implementation should provide logging
@@ -18,6 +26,7 @@ type Logger interface {
 	Infof(format string, args ...interface{})
 	Warnf(format string, args ...interface{})
 	Errorf(format string, args ...interface{})
+	Fatalf(format string, args ...interface{})
 }
 
 // Cache implementation is responsible for caching
@@ -45,5 +54,10 @@ func (dl defaultLogger) Warnf(format string, args ...interface{}) {
 }
 
 func (dl defaultLogger) Errorf(format string, args ...interface{}) {
-	log.Printf("ERR  : %s", fmt.Sprintf(format, args...))
+	log.Printf("ERROR: %s", fmt.Sprintf(format, args...))
+}
+
+func (dl defaultLogger) Fatalf(format string, args ...interface{}) {
+	log.Printf("FATAL: %s", fmt.Sprintf(format, args...))
+	os.Exit(1)
 }

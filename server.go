@@ -35,6 +35,11 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 	wr.Header().Set("Content-type", "application/json")
 
 	query := Query{}
+	strategy := req.FormValue("strategy")
+	if strategy == "" {
+		strategy = "1st"
+	}
+
 	query.Text = req.FormValue("q")
 	query.Attribs = map[string]string{}
 
@@ -45,7 +50,7 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 	}
 
 	ctx := req.Context()
-	rs, err := srv.ins.Search(ctx, query)
+	rs, err := srv.ins.Search(ctx, query, strategy)
 	if err != nil {
 		wr.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(wr).Encode(map[string]interface{}{
@@ -58,9 +63,9 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 
 func (srv Server) handleSources(wr http.ResponseWriter, req *http.Request) {
 	sources := map[string]string{}
-	for name, src := range srv.ins.GetSources() {
+	for _, src := range srv.ins.GetSources() {
 		ty := reflect.TypeOf(src)
-		sources[name] = ty.String()
+		sources[src.Name] = ty.String()
 	}
 	wr.Header().Set("Content-type", "application/json")
 	json.NewEncoder(wr).Encode(sources)

@@ -1,6 +1,7 @@
 package sources
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -24,7 +25,7 @@ type TLDR struct {
 }
 
 // Search for a particular query in tldr-pages repository
-func (tldr TLDR) Search(query radium.Query) ([]radium.Article, error) {
+func (tldr TLDR) Search(ctx context.Context, query radium.Query) ([]radium.Article, error) {
 	var rs []radium.Article
 
 	tool := strings.Replace(query.Text, " ", "-", -1)
@@ -34,14 +35,14 @@ func (tldr TLDR) Search(query radium.Query) ([]radium.Article, error) {
 		platform = val
 	}
 
-	res, err := tldr.getPlatformToolInfo(tool, platform)
+	res, err := tldr.getPlatformToolInfo(ctx, tool, platform)
 	if err == nil {
 		rs = append(rs, *res)
 	}
 	return rs, nil
 }
 
-func (tldr TLDR) getPlatformToolInfo(tool, platform string) (*radium.Article, error) {
+func (tldr TLDR) getPlatformToolInfo(ctx context.Context, tool, platform string) (*radium.Article, error) {
 	rawGitURL := "https://raw.githubusercontent.com/tldr-pages/tldr/master/pages/%s/%s.md"
 
 	ghURL := fmt.Sprintf(rawGitURL, url.QueryEscape(platform), url.QueryEscape(tool))
@@ -52,6 +53,7 @@ func (tldr TLDR) getPlatformToolInfo(tool, platform string) (*radium.Article, er
 
 	req, _ := http.NewRequest(http.MethodGet, ghURL, nil)
 	req.Header.Set("User-Agent", "curl/7.54.0")
+	req.WithContext(ctx)
 
 	resp, err := client.Do(req)
 	if err != nil {

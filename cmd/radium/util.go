@@ -21,9 +21,12 @@ func writeOut(cmd *cobra.Command, v interface{}) {
 }
 
 func tryPrettyPrint(v interface{}) {
-	if article, ok := v.(radium.Article); ok {
-		fmt.Println(article.Content)
-	} else {
+	switch v.(type) {
+	case radium.Article:
+		fmt.Println((v.(radium.Article)).Content)
+	case error:
+		fmt.Printf("error: %s\n", v)
+	default:
 		rawDump(v, true)
 	}
 }

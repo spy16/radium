@@ -81,8 +81,8 @@ Currently following implementations are available:
 
 ## TODO:
 
-- [ ] Make sources configurable
-  - sources to be used should be configurable per instance
+- [x] Make sources configurable
+  - [x] sources to be used should be configurable per instance
 - [ ] a configurable caching mechanism to enable offline usage
 - [ ] Add more sources (hackernews?, wikipedia?)
 - [ ] Enable markdown to console colored output ?

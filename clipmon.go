@@ -51,7 +51,7 @@ func (cbm *ClipboardMonitor) Run(ctx context.Context) error {
 				query.Text = strings.TrimSpace(currentContent)
 
 				cbm.Instance.Infof("running query for '%s'..", query.Text)
-				rs, err := cbm.Instance.Search(ctx, query)
+				rs, err := cbm.Instance.Search(ctx, query, Strategy1st)
 				if err == nil && rs != nil {
 					if len(rs) > 0 {
 						cbm.Instance.Infof("recieved result. pasting back..")

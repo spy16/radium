@@ -1,6 +1,7 @@
 package sources
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -26,8 +27,7 @@ type Radium struct {
 
 // Search makes a GET /search to the radium server and formats the
 // response
-func (rad Radium) Search(query radium.Query) ([]radium.Article, error) {
-
+func (rad Radium) Search(ctx context.Context, query radium.Query) ([]radium.Article, error) {
 	timeout := time.Duration(5 * time.Second)
 	client := http.Client{
 		Timeout: timeout,
@@ -52,6 +52,7 @@ func (rad Radium) Search(query radium.Query) ([]radium.Article, error) {
 
 	req, _ := http.NewRequest(http.MethodGet, urlObj.String(), nil)
 	req.Header.Set("User-Agent", "curl/7.54.0")
+	req.WithContext(ctx)
 
 	resp, err := client.Do(req)
 	if err != nil {

@@ -44,7 +44,7 @@ by passing '--clipboard' or '-C' option and setting '--addr' blank.
 
 		var wg sync.WaitGroup
 
-		ins := getNewRadiumInstance()
+		ins := getNewRadiumInstance(*cfg)
 
 		if addr != "" {
 			srv := radium.NewServer(ins)

@@ -5,16 +5,25 @@ import (
 	"fmt"
 )
 
+// Default registered strategies
+const (
+	Strategy1st        = "1st"
+	StrategyConcurrent = "concurrent"
+)
+
 // New initializes an instance of radium
 func New(cache Cache, logger Logger) *Instance {
 	ins := &Instance{}
-	ins.sources = map[string]Source{}
 	ins.cache = cache
 
 	if logger == nil {
 		logger = defaultLogger{}
 	}
 	ins.Logger = logger
+	ins.strategies = map[string]Strategy{
+		Strategy1st:        NewNthResult(1, ins.Logger),
+		StrategyConcurrent: NewConcurrent(ins.Logger),
+	}
 
 	return ins
 }
@@ -23,28 +32,42 @@ func New(cache Cache, logger Logger) *Instance {
 type Instance struct {
 	Logger
 
-	sources map[string]Source
-	cache   Cache
+	sources    []RegisteredSource
+	strategies map[string]Strategy
+	cache      Cache
+}
+
+// RegisterStrategy adds a new source to the query sources
+func (ins *Instance) RegisterStrategy(name string, strategy Strategy) {
+	if ins.strategies == nil {
+		ins.strategies = map[string]Strategy{}
+	}
+
+	ins.strategies[name] = strategy
 }
 
 // RegisterSource adds a new source to the query sources
-func (ins Instance) RegisterSource(name string, src Source) error {
-	if _, exists := ins.sources[name]; exists {
-		return fmt.Errorf("source with given name already exists")
+func (ins *Instance) RegisterSource(name string, src Source) error {
+	for _, entry := range ins.sources {
+		if name == entry.Name {
+			return fmt.Errorf("source with given name already exists")
+		}
 	}
 
-	ins.sources[name] = src
+	ins.sources = append(ins.sources, RegisteredSource{
+		Name:   name,
+		Source: src,
+	})
 	return nil
 }
 
 // GetSources returns a list of registered sources
-func (ins Instance) GetSources() map[string]Source {
+func (ins Instance) GetSources() []RegisteredSource {
 	return ins.sources
 }
 
 // Search using given query and return results if any
-func (ins Instance) Search(ctx context.Context, query Query) ([]Article, error) {
-
+func (ins Instance) Search(ctx context.Context, query Query, strategyName string) ([]Article, error) {
 	if err := query.Validate(); err != nil {
 		return nil, err
 	}
@@ -53,42 +76,18 @@ func (ins Instance) Search(ctx context.Context, query Query) ([]Article, error) 
 		return rs, nil
 	}
 
-	results := ins.findFromSources(ctx, query)
+	strategy, exists := ins.strategies[strategyName]
+	if !exists {
+		return nil, fmt.Errorf("no such strategy: %s", strategyName)
+	}
+
+	results, err := strategy.Execute(ctx, query, ins.sources)
+	if err != nil {
+		return nil, err
+	}
+
 	go ins.performCaching(query, results)
 	return results, nil
-}
-
-func (ins Instance) findFromSources(ctx context.Context, query Query) []Article {
-	var results []Article
-	for srcName, src := range ins.sources {
-		resList, err := src.Search(query)
-		if err != nil {
-			ins.Warnf("source '%s' failed: %s", srcName, err)
-			continue
-		}
-
-		for _, res := range resList {
-			select {
-			case <-ctx.Done():
-				break
-			default:
-			}
-
-			if err := res.Validate(); err != nil {
-				ins.Warnf("invalid result from source '%s': %s", srcName, err)
-				continue
-			}
-
-			res.Source = srcName
-			results = append(results, res)
-		}
-	}
-
-	if results == nil {
-		results = []Article{}
-	}
-
-	return results
 }
 
 func (ins Instance) findInCache(query Query) []Article {
@@ -96,7 +95,7 @@ func (ins Instance) findInCache(query Query) []Article {
 		return nil
 	}
 
-	rs, err := ins.cache.Search(query)
+	rs, err := ins.cache.Search(context.Background(), query)
 	if err != nil {
 		ins.Warnf("failed to search in cache: %s", err)
 		return nil
