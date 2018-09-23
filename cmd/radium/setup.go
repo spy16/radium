@@ -25,6 +25,8 @@ func getNewRadiumInstance(cfg config) *radium.Instance {
 			ins.RegisterSource("wikipedia", wikipedia.New("https://%s.wikipedia.org/w/api.php"))
 		case "duckduckgo", "ddg":
 			ins.RegisterSource("duckduckgo", duckduckgo.New())
+		case "radium", "rad":
+			ins.RegisterSource("radium", sources.NewRadium(cfg.RadiumURL))
 		default:
 			ins.Fatalf("unknown source type: %s", src)
 		}

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"time"
 
 	"github.com/shivylp/radium"
 )
@@ -28,32 +27,23 @@ type Radium struct {
 // Search makes a GET /search to the radium server and formats the
 // response
 func (rad Radium) Search(ctx context.Context, query radium.Query) ([]radium.Article, error) {
-	timeout := time.Duration(5 * time.Second)
-	client := http.Client{
-		Timeout: timeout,
-	}
-
-	urlObj, err := url.Parse(rad.server)
+	urlObj, err := url.Parse(rad.server + "/search")
 	if err != nil {
 		return nil, err
 	}
 
 	urlQuery := urlObj.Query()
-
 	urlQuery.Set("q", query.Text)
-
 	for name, val := range query.Attribs {
 		urlQuery.Set(name, val)
 	}
-
 	urlObj.RawQuery = urlQuery.Encode()
-
-	fmt.Printf("URL: %s\n", urlObj)
 
 	req, _ := http.NewRequest(http.MethodGet, urlObj.String(), nil)
 	req.Header.Set("User-Agent", "curl/7.54.0")
 	req.WithContext(ctx)
 
+	client := http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
@@ -65,7 +55,6 @@ func (rad Radium) Search(ctx context.Context, query radium.Query) ([]radium.Arti
 	}
 
 	var rs []radium.Article
-
 	err = json.NewDecoder(resp.Body).Decode(&rs)
 	if err != nil {
 		return nil, err

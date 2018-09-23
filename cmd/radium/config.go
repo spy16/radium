@@ -10,6 +10,8 @@ import (
 
 func initConfig(cfg *config, rootCmd *cobra.Command) {
 	viper.SetDefault("sources", "cheatsh,learnxiny,tldr")
+	viper.SetDefault("radiumurl", "")
+	viper.RegisterAlias("radiumurl", "radium_url")
 
 	viper.SetConfigName("radium")
 	viper.AddConfigPath("./")
@@ -28,5 +30,6 @@ func initConfig(cfg *config, rootCmd *cobra.Command) {
 // config struct is used to store CLI configurations. configuration
 // values are read into this struct using viper
 type config struct {
-	Sources []string `json:"sources"`
+	Sources   []string `json:"sources"`
+	RadiumURL string   `json:"radium_url"`
 }

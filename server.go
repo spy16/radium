@@ -14,6 +14,7 @@ func NewServer(ins *Instance, defaultStrategy string) *Server {
 	srv := &Server{}
 
 	srv.ins = ins
+	srv.Logger = ins.Logger
 	srv.defStrategy = defaultStrategy
 	srv.router = mux.NewRouter()
 	srv.router.HandleFunc("/search", srv.handleSearch)
@@ -24,6 +25,8 @@ func NewServer(ins *Instance, defaultStrategy string) *Server {
 
 // Server represents an instance of HTTP API server
 type Server struct {
+	Logger
+
 	ins         *Instance
 	router      *mux.Router
 	defStrategy string
@@ -54,12 +57,15 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	rs, err := srv.ins.Search(ctx, query, strategy)
 	if err != nil {
+		srv.Warnf("error occured during search: %s", err)
 		wr.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(wr).Encode(map[string]interface{}{
 			"error": err.Error(),
 		})
 		return
 	}
+
+	srv.Infof("found %d result(s) for '%s'", len(rs), query.Text)
 	json.NewEncoder(wr).Encode(rs)
 }
 

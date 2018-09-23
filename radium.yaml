@@ -4,3 +4,6 @@ sources:
   - learnxiny
   - wikipedia
   - duckduckgo
+  - radium
+
+radium_url: http://localhost:8080
