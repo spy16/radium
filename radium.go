@@ -3,6 +3,9 @@ package radium
 import (
 	"context"
 	"fmt"
+	"sync"
+
+	"github.com/sirupsen/logrus"
 )
 
 // Default registered strategies
@@ -13,12 +16,22 @@ const (
 
 // New initializes an instance of radium
 func New(cache Cache, logger Logger) *Instance {
-	ins := &Instance{}
-	ins.cache = cache
+	if cache == nil {
+		// only useful in case of server or clipboard mode
+		cache = &defaultCache{
+			mu:   &sync.Mutex{},
+			data: map[string][]Article{},
+		}
+	}
 
 	if logger == nil {
-		logger = defaultLogger{}
+		logger = defaultLogger{
+			logger: logrus.New(),
+		}
 	}
+
+	ins := &Instance{}
+	ins.cache = cache
 	ins.Logger = logger
 	ins.strategies = map[string]Strategy{
 		Strategy1st:        NewNthResult(1, ins.Logger),
@@ -73,8 +86,10 @@ func (ins Instance) Search(ctx context.Context, query Query, strategyName string
 	}
 
 	if rs := ins.findInCache(query); rs != nil && len(rs) > 0 {
+		ins.Infof("cache hit for '%s'", query.Text)
 		return rs, nil
 	}
+	ins.Infof("cache miss for '%s'", query.Text)
 
 	strategy, exists := ins.strategies[strategyName]
 	if !exists {

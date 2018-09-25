@@ -72,7 +72,7 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 func (srv Server) handleSources(wr http.ResponseWriter, req *http.Request) {
 	sources := map[string]string{}
 	for _, src := range srv.ins.GetSources() {
-		ty := reflect.TypeOf(src)
+		ty := reflect.TypeOf(src.Source)
 		sources[src.Name] = ty.String()
 	}
 	wr.Header().Set("Content-type", "application/json")
