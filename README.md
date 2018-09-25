@@ -3,9 +3,8 @@
 [![GoDoc](https://godoc.org/github.com/shivylp/radium?status.svg)](https://godoc.org/github.com/shivylp/radium) [![Build Status](https://travis-ci.org/shivylp/radium.svg?branch=master)](https://travis-ci.org/shivylp/radium) [![Go Report Card](https://goreportcard.com/badge/github.com/shivylp/radium)](https://goreportcard.com/report/github.com/shivylp/radium)
 
 `radium` is a platform (client and optional server) for viewing
-reference articles, cheat sheets etc. right from a shell similar
-to the awesome [cheat.sh](http://cheat.sh). `radium` is written
-in `Go` (`Golang`)
+reference articles, cheat sheets etc. right from a shell. `radium`
+is written in `Go` (`Golang`)
 
 ## Install
 
@@ -24,7 +23,7 @@ You can run `radium --help` to see the list of available commands.
 ### Querying from command-line
 
 ```bash
-radium query "append file in go" 
+radium query "append file in go"
 
 radium query dir --attr platform:windows
 
