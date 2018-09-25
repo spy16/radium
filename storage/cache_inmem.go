@@ -20,7 +20,7 @@ type defaultCache struct {
 	data map[string][]radium.Article
 }
 
-func (dc *defaultCache) Search(q radium.Query) ([]radium.Article, error) {
+func (dc *defaultCache) Search(ctx context.Context, q radium.Query) ([]radium.Article, error) {
 	dc.mu.Lock()
 	defer dc.mu.Unlock()
 
