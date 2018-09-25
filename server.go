@@ -57,7 +57,7 @@ func (srv Server) handleSearch(wr http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 	rs, err := srv.ins.Search(ctx, query, strategy)
 	if err != nil {
-		srv.Warnf("error occured during search: %s", err)
+		srv.Warnf("error occurred during search: %s", err)
 		wr.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(wr).Encode(map[string]interface{}{
 			"error": err.Error(),

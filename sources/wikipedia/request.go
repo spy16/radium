@@ -66,7 +66,7 @@ func NewRequest(baseURL, query, language string) (*Request, error) {
 }
 
 // Execute fetches the data and decodes it into a Response.
-// Returns an error if the data could not be retrived or the decoding fails.
+// Returns an error if the data could not be retrieved or the decoding fails.
 func (r *Request) Execute(ctx context.Context, noCheckCert bool) (*Response, error) {
 	client := &http.Client{}
 

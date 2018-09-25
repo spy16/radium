@@ -22,7 +22,7 @@ type ClipboardMonitor struct {
 	oldContent string
 }
 
-// Run starts an infinite for loop which continuosly monitors
+// Run starts an infinite for loop which continuously monitors
 // the system clipboard for changes. Run() can be invoked as
 // a goroutine, and a context can be passed in for stopping
 // the monitor.
@@ -54,7 +54,7 @@ func (cbm *ClipboardMonitor) Run(ctx context.Context) error {
 				rs, err := cbm.Instance.Search(ctx, query, Strategy1st)
 				if err == nil && rs != nil {
 					if len(rs) > 0 {
-						cbm.Instance.Infof("recieved result. pasting back..")
+						cbm.Instance.Infof("received result. pasting back..")
 						clipboard.WriteAll(rs[0].Content)
 						cbm.oldContent = rs[0].Content
 					} else {
