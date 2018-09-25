@@ -1,6 +1,6 @@
 # radium
 
-[![Build Status](https://travis-ci.org/shivylp/radium.svg?branch=master)](https://travis-ci.org/shivylp/radium)
+[![Build Status](https://travis-ci.org/shivylp/radium.svg?branch=master)](https://travis-ci.org/shivylp/radium) [![Go Report Card](https://goreportcard.com/badge/github.com/shivylp/radium)](https://goreportcard.com/report/github.com/shivylp/radium)
 
 `radium` is a platform (client and optional server) for viewing
 reference articles, cheat sheets etc. right from a shell similar
