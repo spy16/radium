@@ -128,3 +128,15 @@ func (ins Instance) performCaching(query Query, results []Article) {
 		ins.Warnf("failed to cache result: %s", err)
 	}
 }
+
+// Source implementation is responsible for providing
+// external data source to query for results.
+type Source interface {
+	Search(ctx context.Context, q Query) ([]Article, error)
+}
+
+// RegisteredSource embeds given Source along with the registered name.
+type RegisteredSource struct {
+	Name string
+	Source
+}

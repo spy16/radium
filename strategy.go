@@ -18,13 +18,18 @@ func NewConcurrent(logger Logger) *Concurrent {
 	}
 }
 
+// NewNthResult initializes NthResult strategy with given n
+func NewNthResult(n int, logger Logger) *NthResult {
+	return &NthResult{stopAt: n, Logger: logger}
+}
+
 // Concurrent is a radium strategy implementation.
 type Concurrent struct {
 	Logger
 }
 
 // Execute the query against given list of sources concurrently. This strategy
-// ingores the source errors and simply logs them.
+// ignores the source errors and simply logs them.
 func (con Concurrent) Execute(ctx context.Context, query Query, sources []RegisteredSource) ([]Article, error) {
 	results := newSafeResults()
 	wg := &sync.WaitGroup{}
@@ -53,38 +58,6 @@ func (con Concurrent) Execute(ctx context.Context, query Query, sources []Regist
 
 	wg.Wait()
 	return results.results, nil
-}
-
-func newSafeResults() *safeResults {
-	return &safeResults{
-		mu: &sync.Mutex{},
-	}
-}
-
-type safeResults struct {
-	mu      *sync.Mutex
-	results []Article
-}
-
-func (sr *safeResults) extend(results []Article, srcName string, logger Logger) {
-	sr.mu.Lock()
-	defer sr.mu.Unlock()
-
-	for _, res := range results {
-		if err := res.Validate(); err != nil {
-			logger.Warnf("ignoring invalid result from source '%s': %s", srcName, err)
-			continue
-		}
-		res.Source = srcName
-
-		sr.results = append(sr.results, res)
-	}
-
-}
-
-// NewNthResult initializes NthResult strategy with given n
-func NewNthResult(n int, logger Logger) *NthResult {
-	return &NthResult{stopAt: n, Logger: logger}
 }
 
 // NthResult implements a radium search strategy. This strategy
@@ -127,4 +100,31 @@ func (nth *NthResult) Execute(ctx context.Context, query Query, srcs []Registere
 		}
 	}
 	return results, nil
+}
+
+func newSafeResults() *safeResults {
+	return &safeResults{
+		mu: &sync.Mutex{},
+	}
+}
+
+type safeResults struct {
+	mu      *sync.Mutex
+	results []Article
+}
+
+func (sr *safeResults) extend(results []Article, srcName string, logger Logger) {
+	sr.mu.Lock()
+	defer sr.mu.Unlock()
+
+	for _, res := range results {
+		if err := res.Validate(); err != nil {
+			logger.Warnf("ignoring invalid result from source '%s': %s", srcName, err)
+			continue
+		}
+		res.Source = srcName
+
+		sr.results = append(sr.results, res)
+	}
+
 }
