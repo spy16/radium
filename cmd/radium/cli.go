@@ -23,19 +23,32 @@ func newRootCmd(cfg *config) *cobra.Command {
 		Use:   "radium <command>",
 		Short: "radium is a platform for reference content",
 		Long: `
-radium is a platform for reference content. radium lets
-users publish, manage and view content from terminal and web.
+radium is a platform (client and optional server) for viewing reference
+articles, cheat sheets etc. right from a shell.
 
-radium can be used in multiple ways - as an offline, personal
-wiki; a server to serve content; a clipboard service to monitor
-and replace queries with solutions as they come in!
+radium can be used in multiple ways - as an offline, wiki from CLI,
+a server to serve content, a clipboard service to monitor and replace
+queries with solutions as they come in!
+
+Examples:
+  // general query which sequentially executes configured sources
+  // until the first result is found
+  $ radium query "append file in go"
+
+  // custom query which looks only 'wikipedia' source and searches
+  // for the query
+  $ radium query "apple" -s wikipedia
+
+  // custom query which executes all configured sources concurrently
+  // and returns all the results
+  $ radium query "apple" --strategy concurrent
 `,
 	}
 
 	rootCmd.PersistentFlags().BoolP("ugly", "u", false, "Print raw output as yaml or json")
-	rootCmd.PersistentFlags().Bool("json", false, "Print output as JSON")
+	rootCmd.PersistentFlags().BoolP("json", "j", false, "Print output as JSON")
 	rootCmd.PersistentFlags().StringSliceP("sources", "s", nil, "Enable sources")
-	rootCmd.PersistentFlags().String("strategy", "1st", "Default strategy to use")
+	rootCmd.PersistentFlags().StringP("strategy", "S", "1st", "Default strategy to use")
 
 	rootCmd.AddCommand(newServeCmd(cfg))
 	rootCmd.AddCommand(newQueryCmd(cfg))
