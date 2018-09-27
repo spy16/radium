@@ -30,7 +30,6 @@ radium query dir --attr platform:windows
 radium query go
 ```
 
-[![asciicast](https://asciinema.org/a/pT0gCmdXdIuINCO1yaseeNuMB.png)](https://asciinema.org/a/pT0gCmdXdIuINCO1yaseeNuMB)
 
 > `--attr` is not part of radium framework but part of the source
 > implementation itself. Weather to consume the attributes or not
