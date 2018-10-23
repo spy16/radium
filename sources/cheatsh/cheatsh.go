@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/spby/radium"
+	"github.com/spy16/radium"
 )
 
 // New initializes a radium.Source implementation using http://cheat.sh as

@@ -3,7 +3,7 @@ package cheatsh
 import (
 	"regexp"
 
-	"github.com/spby/radium"
+	"github.com/spy16/radium"
 )
 
 var (

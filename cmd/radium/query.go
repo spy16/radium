@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spby/radium"
 	"github.com/spf13/cobra"
+	"github.com/spy16/radium"
 )
 
 func newQueryCmd(cfg *config) *cobra.Command {

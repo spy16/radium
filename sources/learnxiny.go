@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spby/radium"
+	"github.com/spy16/radium"
 )
 
 const learnXInYURL = "https://github.com/adambard/learnxinyminutes-docs/blob/master/%s.html.markdown"

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/spby/radium"
-	"github.com/spby/radium/sources"
-	"github.com/spby/radium/sources/cheatsh"
-	"github.com/spby/radium/sources/duckduckgo"
-	"github.com/spby/radium/sources/wikipedia"
+	"github.com/spy16/radium"
+	"github.com/spy16/radium/sources"
+	"github.com/spy16/radium/sources/cheatsh"
+	"github.com/spy16/radium/sources/duckduckgo"
+	"github.com/spy16/radium/sources/wikipedia"
 )
 
 func getNewRadiumInstance(cfg config) *radium.Instance {

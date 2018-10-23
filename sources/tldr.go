@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/spby/radium"
+	"github.com/spy16/radium"
 )
 
 // NewTLDR initializes a radium.Source implementation using

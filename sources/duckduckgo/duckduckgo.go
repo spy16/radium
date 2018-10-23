@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/spby/radium"
+	"github.com/spy16/radium"
 )
 
 const ddgURL = "https://api.duckduckgo.com"

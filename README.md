@@ -1,6 +1,6 @@
 # radium
 
-[![GoDoc](https://godoc.org/github.com/spby/radium?status.svg)](https://godoc.org/github.com/spby/radium) [![Build Status](https://travis-ci.org/spby/radium.svg?branch=master)](https://travis-ci.org/spby/radium) [![Go Report Card](https://goreportcard.com/badge/github.com/spby/radium)](https://goreportcard.com/report/github.com/spby/radium)
+[![GoDoc](https://godoc.org/github.com/spy16/radium?status.svg)](https://godoc.org/github.com/spy16/radium) [![Build Status](https://travis-ci.org/spy16/radium.svg?branch=master)](https://travis-ci.org/spy16/radium) [![Go Report Card](https://goreportcard.com/badge/github.com/spy16/radium)](https://goreportcard.com/report/github.com/spy16/radium)
 
 `radium` is a platform (client and optional server) for viewing
 reference articles, cheat sheets etc. right from a shell. `radium`
@@ -8,7 +8,7 @@ is written in `Go` (`Golang`)
 
 ## Install
 
-1. Download the latest pre-built binary for your platform from [releases](https://github.com/spby/radium/releases) page.
+1. Download the latest pre-built binary for your platform from [releases](https://github.com/spy16/radium/releases) page.
 2. Run the binary! (Optionally, create a `radium.yaml` file in `~` to customize)
 
 ## Build

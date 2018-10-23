@@ -3,7 +3,7 @@ package wikipedia
 import (
 	"context"
 
-	"github.com/spby/radium"
+	"github.com/spy16/radium"
 )
 
 // New initializes wikipedia based radium source implementation.
