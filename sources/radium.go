@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/shivylp/radium"
+	"github.com/spby/radium"
 )
 
 // NewRadium initializes a radium.Source implementation

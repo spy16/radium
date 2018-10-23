@@ -1,4 +1,4 @@
-module github.com/shivylp/radium
+module github.com/spby/radium
 
 require (
 	github.com/atotto/clipboard v0.1.0

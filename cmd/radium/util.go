@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/shivylp/radium"
+	"github.com/spby/radium"
 	"github.com/spf13/cobra"
 	yaml "gopkg.in/yaml.v2"
 )

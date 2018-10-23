@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shivylp/radium"
+	"github.com/spby/radium"
 	"github.com/spf13/cobra"
 )
 

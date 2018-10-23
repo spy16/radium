@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/shivylp/radium"
+	"github.com/spby/radium"
 )
 
 const cheatShURL = "http://cheat.sh"
