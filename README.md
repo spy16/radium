@@ -1,6 +1,7 @@
 # radium
 
 [![GoDoc](https://godoc.org/github.com/spy16/radium?status.svg)](https://godoc.org/github.com/spy16/radium) [![Build Status](https://travis-ci.org/spy16/radium.svg?branch=master)](https://travis-ci.org/spy16/radium) [![Go Report Card](https://goreportcard.com/badge/github.com/spy16/radium)](https://goreportcard.com/report/github.com/spy16/radium)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fspy16%2Fradium.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fspy16%2Fradium?ref=badge_shield)
 
 `radium` is a platform (client and optional server) for viewing
 reference articles, cheat sheets etc. right from a shell. `radium`
@@ -101,3 +102,7 @@ See [sources/README.md](./sources/README.md) for more information
   - [x] if a result is available within certain time window, replace the clipboard
     content with the solution
   - [ ] enable query only if clipboard text is in special format to reduce unwanted paste-backs
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fspy16%2Fradium.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fspy16%2Fradium?ref=badge_large)
